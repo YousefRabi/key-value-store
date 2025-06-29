@@ -35,8 +35,10 @@ func (ck *Clerk) Get(key string) (string, rpc.Tversion, rpc.Err) {
 	tries := 0
 	ok := false
 	for !ok {
+		if tries >= 1 {
+			time.Sleep(10 * time.Millisecond)
+		}
 		ok = ck.clnt.Call(ck.server, "KVServer.Get", &args, &reply)
-		time.Sleep(10 * time.Millisecond)
 		tries++
 	}
 
@@ -67,8 +69,10 @@ func (ck *Clerk) Put(key, value string, version rpc.Tversion) rpc.Err {
 	tries := 0
 	ok := false
 	for !ok {
+		if tries >= 1 {
+			time.Sleep(10 * time.Millisecond)
+		}
 		ok = ck.clnt.Call(ck.server, "KVServer.Put", &args, &reply)
-		time.Sleep(10 * time.Millisecond)
 		tries++
 	}
 
